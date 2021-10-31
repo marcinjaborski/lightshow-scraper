@@ -3,6 +3,8 @@ from selenium.webdriver.common.by import By
 import random
 import string
 import base64
+import os
+import sys
 
 
 def generate_link():
@@ -35,8 +37,10 @@ def save_image(image_base64, file_name):
 
 
 if __name__ == "__main__":
-    PATH = "C:\\Users\\Marcin\\PycharmProjects\\lightshow-scraper\\chromedriver.exe"
+    PATH = "chromedriver.exe" if len(sys.argv) < 3 else sys.argv[2]
+    no_images = 10 if len(sys.argv) < 2 else float(sys.argv[1])
     wdriver = webdriver.Chrome(PATH)
-    get_images_from_lightshow(wdriver, 10)
-    # get_images_from_lighshow(wdriver, math.inf)
+    if not os.path.exists('imgs'):
+        os.makedirs('imgs')
+    get_images_from_lightshow(wdriver, no_images)
     wdriver.quit()
